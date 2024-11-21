@@ -14,4 +14,18 @@ describe('api Controller', () => {
             "error_description": "any_description"
         })
     })
+
+    test('should return 400 if no destination is provided', () => {
+        const sut = new ApiController()
+        const httpRequest = {
+            "customer_id": "any_id",
+            "origin": "any_origin"
+        }
+        const httpResponse = sut.handle(httpRequest)
+        expect(httpResponse.statusCode).toBe(400)
+        expect(httpResponse.body).toEqual({
+            "error_code": "INVALID_DATA",
+            "error_description": "any_description"
+        })
+    })
 })
