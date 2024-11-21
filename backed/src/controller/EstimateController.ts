@@ -1,7 +1,7 @@
 import { badRequest } from "../helpers/http-helper";
 import { HttpRequest, HttpResponse } from "../protocols/http";
 
-export class ApiController {
+export class EstimateController {
     handle(httpRequest: HttpRequest): HttpResponse {
         const requiredFields = ['customer_id', 'origin', 'destination']
         for (const field of requiredFields) {

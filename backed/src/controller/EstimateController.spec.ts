@@ -1,8 +1,8 @@
-import { ApiController } from "./apiController"
+import { EstimateController } from "./EstimateController"
 
-describe('api Controller', () => {
+describe('EstimateController', () => {
     test('should return 400 if no origin is provided', () => {
-        const sut = new ApiController()
+        const sut = new EstimateController()
 
         const httpRequest = {
             'body': {
@@ -21,7 +21,7 @@ describe('api Controller', () => {
     })
 
     test('should return 400 if no destination is provided', () => {
-        const sut = new ApiController()
+        const sut = new EstimateController()
 
         const httpRequest = {
             'body': {
@@ -40,7 +40,7 @@ describe('api Controller', () => {
     })
 
     test('should return 400 if no customer_id is provided', () => {
-        const sut = new ApiController()
+        const sut = new EstimateController()
 
         const httpRequest = {
             'body': {
@@ -59,7 +59,7 @@ describe('api Controller', () => {
     })
 
     test('should return 400 if origin address is equal to the destination address', () => {
-        const sut = new ApiController()
+        const sut = new EstimateController()
 
         const httpRequest = {
             'body': {
@@ -79,7 +79,7 @@ describe('api Controller', () => {
     })
 
     test('should return 400 if customer_id, origin or destination is a string of blank spaces', () => {
-        const sut = new ApiController()
+        const sut = new EstimateController()
 
         const httpRequest = {
             'body': {
