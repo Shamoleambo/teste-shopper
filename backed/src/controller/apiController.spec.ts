@@ -9,5 +9,9 @@ describe('api Controller', () => {
         }
         const httpResponse = sut.handle(httpRequest)
         expect(httpResponse.statusCode).toBe(400)
+        expect(httpResponse.body).toEqual({
+            "error_code": "INVALID_DATA",
+            "error_description": "any_description"
+        })
     })
 })
