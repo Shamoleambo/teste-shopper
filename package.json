@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "dotenv": "^16.4.5",
     "git-commit-msg-linter": "^5.0.8"
   }
 }
