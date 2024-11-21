@@ -1,5 +1,7 @@
+import { HttpRequest, HttpResponse } from "../protocols/http";
+
 export class ApiController {
-    handle(httpRequest: any): any {
+    handle(httpRequest: HttpRequest): HttpResponse {
         return {
             statusCode: 400,
             body: {

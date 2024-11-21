@@ -4,8 +4,11 @@ describe('api Controller', () => {
     test('should return 400 if no origin is provided', () => {
         const sut = new ApiController()
         const httpRequest = {
-            "customer_id": "any_id",
-            "destination": "any_destination"
+            'body': {
+                "customer_id": "any_id",
+                "destination": "any_destination"
+            }
+
         }
         const httpResponse = sut.handle(httpRequest)
         expect(httpResponse.statusCode).toBe(400)
@@ -18,8 +21,11 @@ describe('api Controller', () => {
     test('should return 400 if no destination is provided', () => {
         const sut = new ApiController()
         const httpRequest = {
-            "customer_id": "any_id",
-            "origin": "any_origin"
+            'body': {
+                "customer_id": "any_id",
+                "origin": "any_origin"
+            }
+
         }
         const httpResponse = sut.handle(httpRequest)
         expect(httpResponse.statusCode).toBe(400)
@@ -33,8 +39,11 @@ describe('api Controller', () => {
         const sut = new ApiController()
 
         const httpRequest = {
-            'origin': 'any_origin',
-            'destination': 'any_destination'
+            'body': {
+                'origin': 'any_origin',
+                'destination': 'any_destination'
+            }
+
         }
         const httpResponse = sut.handle(httpRequest)
 
