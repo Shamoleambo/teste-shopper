@@ -77,4 +77,23 @@ describe('api Controller', () => {
             "error_description": "Os dados fornecidos no corpo da requisição são inválidos"
         })
     })
+
+    test('should return 400 if customer_id, origin or destination is a string of blank spaces', () => {
+        const sut = new ApiController()
+
+        const httpRequest = {
+            'body': {
+                'customer_id': '   ',
+                'origin': '    ',
+                'destination': '   '
+            }
+        }
+        const httpResponse = sut.handle(httpRequest)
+
+        expect(httpResponse.statusCode).toBe(400)
+        expect(httpResponse.body).toEqual({
+            "error_code": "INVALID_DATA",
+            "error_description": "Os dados fornecidos no corpo da requisição são inválidos"
+        })
+    })
 })
