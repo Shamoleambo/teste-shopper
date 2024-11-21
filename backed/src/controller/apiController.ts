@@ -6,6 +6,7 @@ export class ApiController {
         const requiredFields = ['customer_id', 'origin', 'destination']
         for (const field of requiredFields) {
             if (!httpRequest.body[field]) return badRequest()
+            if (!httpRequest.body[field].trim()) return badRequest()
         }
 
         if (httpRequest.body.origin === httpRequest.body.destination) return badRequest()
