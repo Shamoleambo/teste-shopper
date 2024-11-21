@@ -53,4 +53,24 @@ describe('api Controller', () => {
             "error_description": "any_description"
         })
     })
+
+    test('should return 400 if origin address is equal to the destination address', () => {
+        const sut = new ApiController()
+
+        const httpRequest = {
+            'body': {
+                'customer_id': 'any_id',
+                'origin': 'any_address',
+                'destination': 'any_address'
+            }
+
+        }
+        const httpResponse = sut.handle(httpRequest)
+
+        expect(httpResponse.statusCode).toBe(400)
+        expect(httpResponse.body).toEqual({
+            "error_code": "INVALID_DATA",
+            "error_description": "any_description"
+        })
+    })
 })
