@@ -1,4 +1,4 @@
-import { badRequest } from "../helpers/http-helper";
+import { badRequest, ok } from "../helpers/http-helper";
 import { HttpRequest, HttpResponse } from "../protocols/http";
 import 'dotenv/config'
 import { FetchWrapper } from "../utils/FetchWrapper";
@@ -28,22 +28,19 @@ export class EstimateController {
         const [destinationLatitude, destinationLongitude] = [json.routes[0].legs[0].endLocation.latLng.latitude, json.routes[0].legs[0].endLocation.latLng.longitude]
         const [distance, duration] = [json.routes[0].distanceMeters, json.routes[0].duration]
 
-        const response = {
-            statusCode: 200,
-            body: {
-                origin: {
-                    latitude: originLatitude,
-                    longitude: originLongitude
-                },
-                destination: {
-                    latitude: destinationLatitude,
-                    longitude: destinationLongitude
-                },
-                distance,
-                duration
-            }
+        const responseBody = {
+            origin: {
+                latitude: originLatitude,
+                longitude: originLongitude
+            },
+            destination: {
+                latitude: destinationLatitude,
+                longitude: destinationLongitude
+            },
+            distance,
+            duration
         }
 
-        return response
+        return ok(responseBody)
     }
 }
