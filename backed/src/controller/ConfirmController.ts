@@ -10,6 +10,8 @@ export class ConfirmController implements Controller {
             if (typeof httpRequest.body[field] == "string" && !httpRequest.body[field].trim()) return badRequest()
         }
 
+        if (!httpRequest.body.driver.name.trim()) return badRequest()
+
         return null
     }
 }
