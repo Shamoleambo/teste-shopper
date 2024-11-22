@@ -23,6 +23,27 @@ export class EstimateController {
         const originAddress = httpRequest.body.origin
         const destinationAddress = httpRequest.body.destination
 
-        const routesApiResponse = this.fetchWrapper.fetchFromRoutesApi(originAddress, destinationAddress)
+        const json = await this.fetchWrapper.fetchFromRoutesApi(originAddress, destinationAddress)
+        const [originLatitude, originLongitude] = [json.routes[0].legs[0].startLocation.latLng.latitude, json.routes[0].legs[0].startLocation.latLng.longitude]
+        const [destinationLatitude, destinationLongitude] = [json.routes[0].legs[0].endLocation.latLng.latitude, json.routes[0].legs[0].endLocation.latLng.longitude]
+        const [distance, duration] = [json.routes[0].distanceMeters, json.routes[0].duration]
+
+        const response = {
+            statusCode: 200,
+            body: {
+                origin: {
+                    latitude: originLatitude,
+                    longitude: originLongitude
+                },
+                destination: {
+                    latitude: destinationLatitude,
+                    longitude: destinationLongitude
+                },
+                distance,
+                duration
+            }
+        }
+
+        return response
     }
 }
