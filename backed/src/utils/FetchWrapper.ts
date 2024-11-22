@@ -1,5 +1,7 @@
+import { ResponseJSON } from "../protocols/routesApi"
+
 export class FetchWrapper {
-    async fetchFromRoutesApi(originAddress: string, destinationAddress: string): Promise<any> {
+    async fetchFromRoutesApi(originAddress: string, destinationAddress: string): Promise<ResponseJSON> {
         const apiResponse = await fetch('https://routes.googleapis.com/directions/v2:computeRoutes',
             {
                 method: 'POST',
@@ -21,6 +23,7 @@ export class FetchWrapper {
             }
         )
 
-        return apiResponse
+        const jsonResponse = await apiResponse.json()
+        return jsonResponse
     }
 }
