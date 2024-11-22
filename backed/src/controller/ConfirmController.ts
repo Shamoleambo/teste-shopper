@@ -4,7 +4,7 @@ import { Controller } from "./IController";
 
 export class ConfirmController implements Controller {
     async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-        const requiredFields = ['customer_id', 'origin', 'destination', 'distance', 'duration']
+        const requiredFields = ['customer_id', 'origin', 'destination', 'distance', 'duration', 'driver']
         for(const field of requiredFields) {
             if(!httpRequest.body[field]) return badRequest()
         }
