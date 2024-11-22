@@ -208,4 +208,30 @@ describe('ConfirmController', () => {
             "error_description": "Os dados fornecidos no corpo da requisição são inválidos"
         })
     })
+
+    test('should return 400 if the name field from driver is blank', async () => {
+        const { sut } = makeSut()
+
+        const httpRequest = {
+            body: {
+                "customer_id": 'any_id',
+                origin: 'any_origin',
+                destination: 'any_destination',
+                distance: 100,
+                duration: 'any_duration',
+                driver: {
+                    id: 123,
+                    name: " "
+                },
+                value: 123
+            }
+        }
+        const httpResponse = await sut.handle(httpRequest)
+
+        expect(httpResponse.statusCode).toBe(400)
+        expect(httpResponse.body).toEqual({
+            "error_code": "INVALID_DATA",
+            "error_description": "Os dados fornecidos no corpo da requisição são inválidos"
+        })
+    })
 })
