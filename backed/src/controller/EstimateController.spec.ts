@@ -147,7 +147,7 @@ describe('EstimateController', () => {
 
         const httpResponse = await sut.handle(httpRequest)
 
-        expect((httpResponse).statusCode).toBe(200)
+        expect(httpResponse.statusCode).toBe(200)
         expect(httpResponse.body.distance).toBe(100)
         expect(httpResponse.body.duration).toEqual("3600s")
         expect(httpResponse.body.origin.latitude).toBe(123)

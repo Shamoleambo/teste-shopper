@@ -1,6 +1,5 @@
 import { badRequest, ok } from "../helpers/http-helper";
 import { HttpRequest, HttpResponse } from "../protocols/http";
-import 'dotenv/config'
 import { FetchWrapper } from "../utils/FetchWrapper";
 
 export class EstimateController {
