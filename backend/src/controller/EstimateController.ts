@@ -1,14 +1,17 @@
 import { badRequest, ok } from "../helpers/http-helper";
 import { HttpRequest, HttpResponse } from "../protocols/http";
+import { DriverRepository } from "../repository/DriverRepository";
 import { FetchWrapper } from "../utils/FetchWrapper";
 import { Controller } from './Controller'
 
 export class EstimateController implements Controller {
 
     private readonly fetchWrapper: FetchWrapper
+    private readonly driverRepository: DriverRepository
 
-    constructor(fetchWrapper: FetchWrapper) {
+    constructor(fetchWrapper: FetchWrapper, driverRepository: DriverRepository) {
         this.fetchWrapper = fetchWrapper
+        this.driverRepository = driverRepository
     }
 
     async handle(httpRequest: HttpRequest): Promise<HttpResponse> {

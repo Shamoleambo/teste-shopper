@@ -1,5 +1,6 @@
 import { FetchWrapper } from "../utils/FetchWrapper"
 import { EstimateController } from "./EstimateController"
+import { MongoDriverRepository } from '../repository/MongoDriverRepository'
 
 type makeSutTypes = {
     sut: EstimateController,
@@ -8,7 +9,8 @@ type makeSutTypes = {
 
 const makeSut = (): makeSutTypes => {
     const fetchWrapper = new FetchWrapper();
-    const sut = new EstimateController(fetchWrapper)
+    const repo = new MongoDriverRepository()
+    const sut = new EstimateController(fetchWrapper, repo)
     return { sut, fetchWrapper }
 }
 
