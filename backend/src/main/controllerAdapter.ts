@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Controller } from "../controller/IController";
+import { Controller } from "../controller/Controller";
 import { HttpRequest } from "../protocols/http";
 
 export const adaptRoute = (controller: Controller) => {

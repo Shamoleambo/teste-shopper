@@ -1,7 +1,7 @@
 import { badRequest, ok } from "../helpers/http-helper";
 import { HttpRequest, HttpResponse } from "../protocols/http";
 import { FetchWrapper } from "../utils/FetchWrapper";
-import { Controller } from './IController'
+import { Controller } from './Controller'
 
 export class EstimateController implements Controller {
 

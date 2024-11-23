@@ -1,6 +1,6 @@
 import { badRequest } from "../helpers/http-helper";
 import { HttpRequest, HttpResponse } from "../protocols/http";
-import { Controller } from "./IController";
+import { Controller } from "./Controller";
 
 export class ConfirmController implements Controller {
     async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
