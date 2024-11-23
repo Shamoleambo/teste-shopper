@@ -5,4 +5,4 @@ RUN npm install && npm install typescript -g
 COPY . .
 RUN tsc
 EXPOSE 8080
-CMD ["node", "./dist/server.js"]
+CMD ["node", "./dist/main/server.js"]
