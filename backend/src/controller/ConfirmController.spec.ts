@@ -1,5 +1,5 @@
 import { ConfirmController } from "./ConfirmController"
-import { Controller } from "./IController"
+import { Controller } from "./Controller"
 
 type SutTypes = {
     sut: Controller
