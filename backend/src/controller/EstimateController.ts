@@ -24,6 +24,7 @@ export class EstimateController implements Controller {
         const destinationAddress = httpRequest.body.destination
 
         const json = await this.fetchWrapper.fetchFromRoutesApi(originAddress, destinationAddress)
+        console.log(json)
         const [originLatitude, originLongitude] = [json.routes[0].legs[0].startLocation.latLng.latitude, json.routes[0].legs[0].startLocation.latLng.longitude]
         const [destinationLatitude, destinationLongitude] = [json.routes[0].legs[0].endLocation.latLng.latitude, json.routes[0].legs[0].endLocation.latLng.longitude]
         const [distance, duration] = [json.routes[0].distanceMeters, json.routes[0].duration]

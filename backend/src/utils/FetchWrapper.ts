@@ -1,5 +1,4 @@
 import { ResponseJSON } from "../protocols/routesApi"
-import 'dotenv/config'
 
 export class FetchWrapper {
     async fetchFromRoutesApi(originAddress: string, destinationAddress: string): Promise<ResponseJSON> {
