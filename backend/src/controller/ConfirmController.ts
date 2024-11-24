@@ -1,8 +1,16 @@
 import { badRequest } from "../helpers/http-helper";
 import { HttpRequest, HttpResponse } from "../protocols/http";
+import { DriverRepository } from "../repository/DriverRepository";
 import { Controller } from "./Controller";
 
 export class ConfirmController implements Controller {
+
+    private readonly driverRepository: DriverRepository
+
+    constructor(driverRepository: DriverRepository) {
+        this.driverRepository = driverRepository
+    }
+
     async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
         const requiredFields = ['customer_id', 'origin', 'destination', 'distance', 'duration', 'driver', 'value']
         for (const field of requiredFields) {
@@ -11,6 +19,15 @@ export class ConfirmController implements Controller {
         }
 
         if (!httpRequest.body.driver.name.trim()) return badRequest()
+
+        const driver = await this.driverRepository.getDriverById(httpRequest.body.driver._id)
+        if (!driver) return ({
+            statusCode: 404,
+            body: {
+                "error_code": "DRIVER_NOT_FOUND",
+                "error_description": "Motorista não encontrado"
+            }
+        })
 
         return null
     }
