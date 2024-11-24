@@ -334,4 +334,44 @@ describe('ConfirmController', () => {
             "error_description": "Quilometragem inválida para o motorista"
         })
     })
+
+    test('should return 200 if request data is correct', async () => {
+        const { sut, driverRepository } = makeSut()
+
+        const httpRequest = {
+            body: {
+                "customer_id": 'any_id',
+                origin: 'any_origin',
+                destination: 'any_destination',
+                distance: 25000,
+                duration: 'any_duration',
+                driver: {
+                    _id: "3",
+                    name: "any_name"
+                },
+                value: 123
+            }
+        }
+        const driver = {
+            id: "3",
+            name: "Joe Doe",
+            description: "any_description",
+            vehicle: "any_vehicle",
+            review: {
+                rating: 5,
+                comment: "any_comment"
+            },
+            ratio: 10,
+            minimumDistance: 10
+        }
+
+        const getDriverByIdSpy = jest.spyOn(driverRepository, 'getDriverById').mockResolvedValueOnce(driver)
+        const httpResponse = await sut.handle(httpRequest)
+
+        expect(httpResponse.statusCode).toBe(200)
+        expect(httpResponse.body).toEqual({ "success": true })
+        expect(getDriverByIdSpy).toHaveBeenCalledTimes(1)
+        expect(getDriverByIdSpy).toHaveBeenCalledWith(httpRequest.body.driver._id)
+
+    })
 })
