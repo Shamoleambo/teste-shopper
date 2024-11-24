@@ -1,13 +1,18 @@
+import { Driver } from "../model/driver"
+import { DriverRepository } from "../repository/DriverRepository"
+import { MongoDriverRepository } from "../repository/MongoDriverRepository"
 import { ConfirmController } from "./ConfirmController"
 import { Controller } from "./Controller"
 
 type SutTypes = {
     sut: Controller
+    driverRepository: DriverRepository
 }
 
 const makeSut = (): SutTypes => {
-    const sut = new ConfirmController()
-    return { sut }
+    const driverRepository = new MongoDriverRepository()
+    const sut = new ConfirmController(driverRepository)
+    return { sut, driverRepository }
 }
 
 describe('ConfirmController', () => {
@@ -232,6 +237,34 @@ describe('ConfirmController', () => {
         expect(httpResponse.body).toEqual({
             "error_code": "INVALID_DATA",
             "error_description": "Os dados fornecidos no corpo da requisição são inválidos"
+        })
+    })
+
+    test('should return 404 if the driver is not found', async () => {
+        const { sut, driverRepository } = makeSut()
+
+        const httpRequest = {
+            body: {
+                "customer_id": 'any_id',
+                origin: 'any_origin',
+                destination: 'any_destination',
+                distance: 100,
+                duration: 'any_duration',
+                driver: {
+                    _id: 123,
+                    name: "any_name"
+                },
+                value: 123
+            }
+        }
+
+        jest.spyOn(driverRepository, 'getDriverById').mockResolvedValueOnce(null)
+        const httpResponse = await sut.handle(httpRequest)
+
+        expect(httpResponse.statusCode).toBe(404)
+        expect(httpResponse.body).toEqual({
+            "error_code": "DRIVER_NOT_FOUND",
+            "error_description": "Motorista não encontrado"
         })
     })
 })

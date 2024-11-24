@@ -10,4 +10,7 @@ export class MongoDriverRepository implements DriverRepository {
         return drivers
     }
 
+    async getDriverById(id: string): Promise<Driver> {
+        return null
+    }
 }
