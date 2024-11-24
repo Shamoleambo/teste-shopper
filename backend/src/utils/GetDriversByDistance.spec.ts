@@ -6,8 +6,11 @@ const dummyDrivers = [{
     id: "first_driver",
     name: "Joe Doe",
     description: "any_description",
-    car: "any_car",
-    rating: "any_rating",
+    vehicle: "any_car",
+    review: {
+        rating: 2,
+        comment: "any_comment"
+    },
     ratio: 1,
     minimumDistance: 1
 },
@@ -15,8 +18,11 @@ const dummyDrivers = [{
     id: "second_driver",
     name: "Jane Doe",
     description: "any_description",
-    car: "any_car",
-    rating: "any_rating",
+    vehicle: "any_car",
+    review: {
+        rating: 3,
+        comment: "any_comment"
+    },
     ratio: 1,
     minimumDistance: 5
 }]
