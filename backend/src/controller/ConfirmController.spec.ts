@@ -267,4 +267,44 @@ describe('ConfirmController', () => {
             "error_description": "Motorista não encontrado"
         })
     })
+
+    test('should return 406 if the driver distance is invalid', async() => {
+        const { sut, driverRepository } = makeSut()
+
+        const httpRequest = {
+            body: {
+                "customer_id": 'any_id',
+                origin: 'any_origin',
+                destination: 'any_destination',
+                distance: 100,
+                duration: 'any_duration',
+                driver: {
+                    _id: 123,
+                    name: "any_name"
+                },
+                value: 123
+            }
+        }
+        const driver = {
+            id: "3",
+            name: "Joe Doe",
+            description: "any_description",
+            vehicle: "any_vehicle",
+            review: {
+                rating: 5,
+                comment: "any_comment"
+            },
+            ratio: 10,
+            minimumDistance: 10
+        }
+
+        jest.spyOn(driverRepository, 'getDriverById').mockResolvedValueOnce(driver)
+        const httpResponse = await sut.handle(httpRequest)
+
+        expect(httpResponse.statusCode).toBe(406)
+        expect(httpResponse.body).toEqual({
+            "error_code": "INVALID_DISTANCE",
+            "error_description": "Quilometragem inválida para o motorista"
+        })
+    })
 })
