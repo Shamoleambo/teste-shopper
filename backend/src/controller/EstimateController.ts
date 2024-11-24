@@ -2,16 +2,17 @@ import { badRequest, ok } from "../helpers/http-helper";
 import { HttpRequest, HttpResponse } from "../protocols/http";
 import { DriverRepository } from "../repository/DriverRepository";
 import { FetchWrapper } from "../utils/FetchWrapper";
+import { GetDriversByDistance } from "../utils/GetDriversByDistance";
 import { Controller } from './Controller'
 
 export class EstimateController implements Controller {
 
     private readonly fetchWrapper: FetchWrapper
-    private readonly driverRepository: DriverRepository
+    private readonly getDriversByDistance: GetDriversByDistance
 
-    constructor(fetchWrapper: FetchWrapper, driverRepository: DriverRepository) {
+    constructor(fetchWrapper: FetchWrapper, getDriversByDistance: GetDriversByDistance) {
         this.fetchWrapper = fetchWrapper
-        this.driverRepository = driverRepository
+        this.getDriversByDistance = getDriversByDistance
     }
 
     async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
@@ -27,10 +28,12 @@ export class EstimateController implements Controller {
         const destinationAddress = httpRequest.body.destination
 
         const json = await this.fetchWrapper.fetchFromRoutesApi(originAddress, destinationAddress)
-        console.log(json)
+
         const [originLatitude, originLongitude] = [json.routes[0].legs[0].startLocation.latLng.latitude, json.routes[0].legs[0].startLocation.latLng.longitude]
         const [destinationLatitude, destinationLongitude] = [json.routes[0].legs[0].endLocation.latLng.latitude, json.routes[0].legs[0].endLocation.latLng.longitude]
         const [distance, duration] = [json.routes[0].distanceMeters, json.routes[0].duration]
+
+        const availableDrivers = await this.getDriversByDistance.check(distance)
 
         const responseBody = {
             origin: {
@@ -42,7 +45,9 @@ export class EstimateController implements Controller {
                 longitude: destinationLongitude
             },
             distance,
-            duration
+            duration,
+            options: availableDrivers,
+            routeResponse: json
         }
 
         return ok(responseBody)
