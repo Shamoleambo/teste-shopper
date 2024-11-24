@@ -1,17 +1,20 @@
 import { FetchWrapper } from "../utils/FetchWrapper"
 import { EstimateController } from "./EstimateController"
 import { MongoDriverRepository } from '../repository/MongoDriverRepository'
+import { GetDriversByDistance } from "../utils/GetDriversByDistance"
 
 type makeSutTypes = {
     sut: EstimateController,
     fetchWrapper: FetchWrapper
+    getDriversByDistance
 }
 
 const makeSut = (): makeSutTypes => {
     const fetchWrapper = new FetchWrapper();
     const repo = new MongoDriverRepository()
-    const sut = new EstimateController(fetchWrapper, repo)
-    return { sut, fetchWrapper }
+    const getDriversByDistance = new GetDriversByDistance(repo)
+    const sut = new EstimateController(fetchWrapper, getDriversByDistance)
+    return { sut, fetchWrapper, getDriversByDistance }
 }
 
 describe('EstimateController', () => {
@@ -112,7 +115,7 @@ describe('EstimateController', () => {
     })
 
     test('should return 200 for success case', async () => {
-        const { sut, fetchWrapper } = makeSut()
+        const { sut, fetchWrapper, getDriversByDistance } = makeSut()
 
         const httpRequest = {
             'body': {
@@ -146,6 +149,17 @@ describe('EstimateController', () => {
                 }
             ]
         })
+        jest.spyOn(getDriversByDistance, 'check').mockResolvedValueOnce([
+            {
+                id: 'any_id',
+                name: "Joe Doe",
+                description: "any_description",
+                car: "any_car",
+                rating: "any_rating",
+                ratio: 5,
+                minimumDistance: 1
+            }
+        ])
 
         const httpResponse = await sut.handle(httpRequest)
 
@@ -156,5 +170,7 @@ describe('EstimateController', () => {
         expect(httpResponse.body.origin.longitude).toBe(321)
         expect(httpResponse.body.destination.latitude).toBe(345)
         expect(httpResponse.body.destination.longitude).toBe(543)
+        expect(httpResponse.body.options.length).toBe(1)
+        expect(httpResponse.body.routeResponse).not.toBeUndefined()
     })
 })
