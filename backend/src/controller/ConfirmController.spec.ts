@@ -21,7 +21,7 @@ describe('ConfirmController', () => {
                 distance: 100,
                 duration: "any_duration",
                 driver: {
-                    id: 123,
+                    _id: 123,
                     name: "any_name"
                 },
                 value: 123
@@ -46,7 +46,7 @@ describe('ConfirmController', () => {
                 distance: 100,
                 duration: "any_duration",
                 driver: {
-                    id: 123,
+                    _id: 123,
                     name: "any_name"
                 },
                 value: 123
@@ -71,7 +71,7 @@ describe('ConfirmController', () => {
                 distance: 100,
                 duration: "any_duration",
                 driver: {
-                    id: 123,
+                    _id: 123,
                     name: "any_name"
                 },
                 value: 123
@@ -96,7 +96,7 @@ describe('ConfirmController', () => {
                 destination: 'any_destination',
                 duration: "any_duration",
                 driver: {
-                    id: 123,
+                    _id: 123,
                     name: "any_name"
                 },
                 value: 123
@@ -121,7 +121,7 @@ describe('ConfirmController', () => {
                 destination: 'any_destination',
                 distance: 100,
                 driver: {
-                    id: 123,
+                    _id: 123,
                     name: "any_name"
                 },
                 value: 123
@@ -169,7 +169,7 @@ describe('ConfirmController', () => {
                 distance: 100,
                 duration: 'any_duration',
                 driver: {
-                    id: 123,
+                    _id: 123,
                     name: "any_name"
                 }
             }
@@ -194,7 +194,7 @@ describe('ConfirmController', () => {
                 distance: 100,
                 duration: 'any_duration',
                 driver: {
-                    id: 123,
+                    _id: 123,
                     name: "any_name"
                 },
                 value: 123
@@ -220,7 +220,7 @@ describe('ConfirmController', () => {
                 distance: 100,
                 duration: 'any_duration',
                 driver: {
-                    id: 123,
+                    _id: 123,
                     name: " "
                 },
                 value: 123
