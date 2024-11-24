@@ -18,6 +18,8 @@ export class ConfirmController implements Controller {
             if (typeof httpRequest.body[field] == "string" && !httpRequest.body[field].trim()) return badRequest()
         }
 
+        if (httpRequest.body.origin === httpRequest.body.destination) return badRequest()
+
         if (!httpRequest.body.driver.name.trim()) return badRequest()
 
         const driver = await this.driverRepository.getDriverById(httpRequest.body.driver._id)
