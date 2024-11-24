@@ -1,6 +1,5 @@
 import { badRequest, ok } from "../helpers/http-helper";
 import { HttpRequest, HttpResponse } from "../protocols/http";
-import { DriverRepository } from "../repository/DriverRepository";
 import { FetchWrapper } from "../utils/FetchWrapper";
 import { GetDriversByDistance } from "../utils/GetDriversByDistance";
 import { Controller } from './Controller'

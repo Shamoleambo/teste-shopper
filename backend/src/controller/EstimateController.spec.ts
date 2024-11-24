@@ -2,6 +2,7 @@ import { FetchWrapper } from "../utils/FetchWrapper"
 import { EstimateController } from "./EstimateController"
 import { MongoDriverRepository } from '../repository/MongoDriverRepository'
 import { GetDriversByDistance } from "../utils/GetDriversByDistance"
+import { TaxiRide } from "../utils/TaxiRide"
 
 type makeSutTypes = {
     sut: EstimateController,
@@ -12,7 +13,8 @@ type makeSutTypes = {
 const makeSut = (): makeSutTypes => {
     const fetchWrapper = new FetchWrapper();
     const repo = new MongoDriverRepository()
-    const getDriversByDistance = new GetDriversByDistance(repo)
+    const ride = new TaxiRide()
+    const getDriversByDistance = new GetDriversByDistance(repo, ride)
     const sut = new EstimateController(fetchWrapper, getDriversByDistance)
     return { sut, fetchWrapper, getDriversByDistance }
 }
