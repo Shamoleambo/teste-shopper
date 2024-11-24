@@ -6,6 +6,10 @@ export class GetDriversByDistance {
     }
 
     async check(distance: number) {
-        return []
+
+        const drivers = await this.mongoDriversRepository.getDrivers()
+        const filteredDrivers = drivers.filter(driver => distance >= driver.minimumDistance * 1000)
+
+        return filteredDrivers
     }
 }
