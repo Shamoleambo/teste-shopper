@@ -23,6 +23,14 @@ export class ConfirmController implements Controller {
         const driver = await this.driverRepository.getDriverById(httpRequest.body.driver._id)
         if (!driver) return driverNotFound()
 
+        if(driver.minimumDistance * 1000 > httpRequest.body.distance) return ({
+            statusCode: 406,
+            body: {
+                "error_code": "INVALID_DISTANCE",
+                "error_description": "Quilometragem inválida para o motorista"
+            }
+        })
+
         return null
     }
 }
