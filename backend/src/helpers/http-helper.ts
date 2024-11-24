@@ -12,3 +12,11 @@ export const ok = (data: any): HttpResponse => ({
     statusCode: 200,
     body: data
 })
+
+export const driverNotFound = (): HttpResponse => ({
+    statusCode: 404,
+    body: {
+        "error_code": "DRIVER_NOT_FOUND",
+        "error_description": "Motorista não encontrado"
+    }
+})

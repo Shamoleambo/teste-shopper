@@ -1,4 +1,4 @@
-import { badRequest } from "../helpers/http-helper";
+import { badRequest, driverNotFound } from "../helpers/http-helper";
 import { HttpRequest, HttpResponse } from "../protocols/http";
 import { DriverRepository } from "../repository/DriverRepository";
 import { Controller } from "./Controller";
@@ -21,13 +21,7 @@ export class ConfirmController implements Controller {
         if (!httpRequest.body.driver.name.trim()) return badRequest()
 
         const driver = await this.driverRepository.getDriverById(httpRequest.body.driver._id)
-        if (!driver) return ({
-            statusCode: 404,
-            body: {
-                "error_code": "DRIVER_NOT_FOUND",
-                "error_description": "Motorista não encontrado"
-            }
-        })
+        if (!driver) return driverNotFound()
 
         return null
     }
