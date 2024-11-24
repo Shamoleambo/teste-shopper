@@ -1,4 +1,4 @@
-import { badRequest, driverNotFound } from "../helpers/http-helper";
+import { badRequest, distanceNotValidForDriver, driverNotFound } from "../helpers/http-helper";
 import { HttpRequest, HttpResponse } from "../protocols/http";
 import { DriverRepository } from "../repository/DriverRepository";
 import { Controller } from "./Controller";
@@ -23,13 +23,7 @@ export class ConfirmController implements Controller {
         const driver = await this.driverRepository.getDriverById(httpRequest.body.driver._id)
         if (!driver) return driverNotFound()
 
-        if(driver.minimumDistance * 1000 > httpRequest.body.distance) return ({
-            statusCode: 406,
-            body: {
-                "error_code": "INVALID_DISTANCE",
-                "error_description": "Quilometragem inválida para o motorista"
-            }
-        })
+        if (driver.minimumDistance * 1000 > httpRequest.body.distance) return distanceNotValidForDriver()
 
         return null
     }

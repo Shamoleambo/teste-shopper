@@ -20,3 +20,11 @@ export const driverNotFound = (): HttpResponse => ({
         "error_description": "Motorista não encontrado"
     }
 })
+
+export const distanceNotValidForDriver = (): HttpResponse => ({
+    statusCode: 406,
+    body: {
+        "error_code": "INVALID_DISTANCE",
+        "error_description": "Quilometragem inválida para o motorista"
+    }
+})
