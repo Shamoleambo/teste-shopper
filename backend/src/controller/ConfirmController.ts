@@ -27,6 +27,9 @@ export class ConfirmController implements Controller {
 
         if (driver.minimumDistance * 1000 > httpRequest.body.distance) return distanceNotValidForDriver()
 
-        return null
+        return {
+            statusCode: 200,
+            body: { success: true }
+        }
     }
 }
