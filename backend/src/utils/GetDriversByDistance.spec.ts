@@ -36,12 +36,13 @@ describe('GetDriversByDistance', () => {
     test('should return no drivers if the distance is not acceptable by any of them', async () => {
         const { sut, mongoDriverRepo } = makeSut()
 
-        jest.spyOn(mongoDriverRepo, 'getDrivers').mockResolvedValueOnce(dummyDrivers)
+        const getDriversSpy = jest.spyOn(mongoDriverRepo, 'getDrivers').mockResolvedValueOnce(dummyDrivers)
 
         const distance = 50
         const drivers = await sut.check(distance)
 
         expect(drivers.length).toBe(0)
+        expect(getDriversSpy).toHaveBeenCalledTimes(1)
     })
 
     test('should return only the driver with the second_driver id based on the distance provided', async () => {
