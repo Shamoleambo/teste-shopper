@@ -3,7 +3,7 @@ import { MongoDriverRepository } from "../repository/MongoDriverRepository"
 import { GetDriversByDistance } from "./GetDriversByDistance"
 
 const dummyDrivers = [{
-    id: "any_id",
+    id: "first_driver",
     name: "Joe Doe",
     description: "any_description",
     car: "any_car",
@@ -12,7 +12,7 @@ const dummyDrivers = [{
     minimumDistance: 1
 },
 {
-    id: "any_id",
+    id: "second_driver",
     name: "Jane Doe",
     description: "any_description",
     car: "any_car",
@@ -42,5 +42,17 @@ describe('GetDriversByDistance', () => {
         const drivers = await sut.check(distance)
 
         expect(drivers.length).toBe(0)
+    })
+
+    test('should return only the driver with the second_driver id based on the distance provided', async () => {
+        const { sut, mongoDriverRepo } = makeSut()
+
+        jest.spyOn(mongoDriverRepo, 'getDrivers').mockResolvedValueOnce(dummyDrivers)
+
+        const distance = 2000
+        const drivers = await sut.check(distance)
+
+        expect(drivers.length).toBe(1)
+        expect(drivers[0].id).toEqual('first_driver')
     })
 })
