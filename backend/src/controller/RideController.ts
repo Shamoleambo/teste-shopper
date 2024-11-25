@@ -1,20 +1,32 @@
 import { invalidDriver } from "../helpers/http-helper";
 import { HttpRequest, HttpResponse } from "../protocols/http";
+import { CustomerRepository } from "../repository/CustomerRepository";
 import { DriverRepository } from "../repository/DriverRepository";
 import { Controller } from "./Controller";
 
 export class RideController implements Controller {
 
     private readonly driverRepository: DriverRepository
+    private readonly customerRepository: CustomerRepository
 
-    constructor(driverRepository: DriverRepository) {
+    constructor(driverRepository: DriverRepository, customerRepository: CustomerRepository) {
         this.driverRepository = driverRepository
+        this.customerRepository = customerRepository
     }
 
     async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
         const driver = await this.driverRepository.getDriverById(httpRequest.params.driver_id)
-        if(!driver) return invalidDriver()
-        
+        if (!driver) return invalidDriver()
+
+        const customer = await this.customerRepository.findCustomerById(httpRequest.params.customer_id)
+        if (!customer || customer.rides.length == 0) return ({
+            statusCode: 404,
+            body: {
+                error_code: "NO_RIDES_FOUND",
+                error_description: "Nenhum registro encontrado"
+            }
+        })
+
         return null
     }
 }

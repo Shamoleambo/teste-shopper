@@ -23,4 +23,8 @@ export class MongoCustomerRepository implements CustomerRepository {
             )
         }
     }
+
+    async findCustomerById(customerId: string): Promise<Customer> {
+        return null
+    }
 }
