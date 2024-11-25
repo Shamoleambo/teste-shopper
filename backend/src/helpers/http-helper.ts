@@ -28,3 +28,11 @@ export const distanceNotValidForDriver = (): HttpResponse => ({
         "error_description": "Quilometragem inválida para o motorista"
     }
 })
+
+export const invalidDriver = (): HttpResponse => ({
+    statusCode: 400,
+    body: {
+        error_code: "INVALID_DRIVER",
+        error_description: "Motorista inválido"
+    }
+})
