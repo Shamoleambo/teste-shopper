@@ -36,3 +36,11 @@ export const invalidDriver = (): HttpResponse => ({
         error_description: "Motorista inválido"
     }
 })
+
+export const noRidesFound = (): HttpResponse => ({
+    statusCode: 404,
+    body: {
+        error_code: "NO_RIDES_FOUND",
+        error_description: "Nenhum registro encontrado"
+    }
+})

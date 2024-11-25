@@ -1,4 +1,4 @@
-import { invalidDriver } from "../helpers/http-helper";
+import { invalidDriver, noRidesFound } from "../helpers/http-helper";
 import { HttpRequest, HttpResponse } from "../protocols/http";
 import { CustomerRepository } from "../repository/CustomerRepository";
 import { DriverRepository } from "../repository/DriverRepository";
@@ -19,13 +19,7 @@ export class RideController implements Controller {
         if (!driver) return invalidDriver()
 
         const customer = await this.customerRepository.findCustomerById(httpRequest.params.customer_id)
-        if (!customer || customer.rides.length == 0) return ({
-            statusCode: 404,
-            body: {
-                error_code: "NO_RIDES_FOUND",
-                error_description: "Nenhum registro encontrado"
-            }
-        })
+        if (!customer || customer.rides.length == 0) return noRidesFound()
 
         return null
     }
