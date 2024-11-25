@@ -1,5 +1,7 @@
 import { Driver } from "../model/driver"
+import { CustomerRepository } from "../repository/CustomerRepository"
 import { DriverRepository } from "../repository/DriverRepository"
+import { MongoCustomerRepository } from "../repository/MongoCustomerRepository"
 import { MongoDriverRepository } from "../repository/MongoDriverRepository"
 import { ConfirmController } from "./ConfirmController"
 import { Controller } from "./Controller"
@@ -7,12 +9,14 @@ import { Controller } from "./Controller"
 type SutTypes = {
     sut: Controller
     driverRepository: DriverRepository
+    customerRepository: CustomerRepository
 }
 
 const makeSut = (): SutTypes => {
     const driverRepository = new MongoDriverRepository()
-    const sut = new ConfirmController(driverRepository)
-    return { sut, driverRepository }
+    const customerRepository = new MongoCustomerRepository()
+    const sut = new ConfirmController(driverRepository, customerRepository)
+    return { sut, driverRepository, customerRepository }
 }
 
 describe('ConfirmController', () => {
@@ -27,7 +31,7 @@ describe('ConfirmController', () => {
                 distance: 100,
                 duration: "any_duration",
                 driver: {
-                    _id: 123,
+                    id: 123,
                     name: "any_name"
                 },
                 value: 123
@@ -53,7 +57,7 @@ describe('ConfirmController', () => {
                 distance: 100,
                 duration: "any_duration",
                 driver: {
-                    _id: 123,
+                    id: 123,
                     name: "any_name"
                 },
                 value: 123
@@ -78,7 +82,7 @@ describe('ConfirmController', () => {
                 distance: 100,
                 duration: "any_duration",
                 driver: {
-                    _id: 123,
+                    id: 123,
                     name: "any_name"
                 },
                 value: 123
@@ -103,7 +107,7 @@ describe('ConfirmController', () => {
                 distance: 100,
                 duration: "any_duration",
                 driver: {
-                    _id: 123,
+                    id: 123,
                     name: "any_name"
                 },
                 value: 123
@@ -128,7 +132,7 @@ describe('ConfirmController', () => {
                 destination: 'any_destination',
                 duration: "any_duration",
                 driver: {
-                    _id: 123,
+                    id: 123,
                     name: "any_name"
                 },
                 value: 123
@@ -153,7 +157,7 @@ describe('ConfirmController', () => {
                 destination: 'any_destination',
                 distance: 100,
                 driver: {
-                    _id: 123,
+                    id: 123,
                     name: "any_name"
                 },
                 value: 123
@@ -201,7 +205,7 @@ describe('ConfirmController', () => {
                 distance: 100,
                 duration: 'any_duration',
                 driver: {
-                    _id: 123,
+                    id: 123,
                     name: "any_name"
                 }
             }
@@ -226,7 +230,7 @@ describe('ConfirmController', () => {
                 distance: 100,
                 duration: 'any_duration',
                 driver: {
-                    _id: 123,
+                    id: 123,
                     name: "any_name"
                 },
                 value: 123
@@ -252,7 +256,7 @@ describe('ConfirmController', () => {
                 distance: 100,
                 duration: 'any_duration',
                 driver: {
-                    _id: 123,
+                    id: 123,
                     name: " "
                 },
                 value: 123
@@ -278,7 +282,7 @@ describe('ConfirmController', () => {
                 distance: 100,
                 duration: 'any_duration',
                 driver: {
-                    _id: 123,
+                    id: 123,
                     name: "any_name"
                 },
                 value: 123
@@ -306,7 +310,7 @@ describe('ConfirmController', () => {
                 distance: 100,
                 duration: 'any_duration',
                 driver: {
-                    _id: 123,
+                    id: 123,
                     name: "any_name"
                 },
                 value: 123
@@ -336,7 +340,7 @@ describe('ConfirmController', () => {
     })
 
     test('should return 200 if request data is correct', async () => {
-        const { sut, driverRepository } = makeSut()
+        const { sut, driverRepository, customerRepository } = makeSut()
 
         const httpRequest = {
             body: {
@@ -346,7 +350,7 @@ describe('ConfirmController', () => {
                 distance: 25000,
                 duration: 'any_duration',
                 driver: {
-                    _id: "3",
+                    id: "3",
                     name: "any_name"
                 },
                 value: 123
@@ -366,12 +370,12 @@ describe('ConfirmController', () => {
         }
 
         const getDriverByIdSpy = jest.spyOn(driverRepository, 'getDriverById').mockResolvedValueOnce(driver)
+        jest.spyOn(customerRepository, 'saveCustomer').mockResolvedValueOnce()
         const httpResponse = await sut.handle(httpRequest)
 
         expect(httpResponse.statusCode).toBe(200)
         expect(httpResponse.body).toEqual({ "success": true })
         expect(getDriverByIdSpy).toHaveBeenCalledTimes(1)
-        expect(getDriverByIdSpy).toHaveBeenCalledWith(httpRequest.body.driver._id)
-
+        expect(getDriverByIdSpy).toHaveBeenCalledWith(httpRequest.body.driver.id)
     })
 })
