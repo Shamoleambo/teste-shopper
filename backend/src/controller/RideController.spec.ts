@@ -31,6 +31,42 @@ const mockDriver = {
     minimumDistance: 1
 }
 
+const date = new Date()
+
+const mockCustomer = {
+    id: "any_id",
+    rides: [
+        {
+            id: 1,
+            customer_id: 'any_id',
+            date,
+            origin: 'any_origin',
+            destination: 'any_destination',
+            distance: '5000',
+            duration: '5000s',
+            driver: {
+                id: 1,
+                name: 'John Doe'
+            },
+            value: 500
+        },
+        {
+            id: 2,
+            customer_id: 'any_id',
+            date,
+            origin: 'any_origin',
+            destination: 'any_destination',
+            distance: '5000',
+            duration: '5000s',
+            driver: {
+                id: 2,
+                name: 'Jane Doe'
+            },
+            value: 600
+        }
+    ]
+}
+
 describe('RideController', () => {
     test('should return 400 if driver is invalid', async () => {
         const { sut, driverRepository } = makeSut()
@@ -72,6 +108,53 @@ describe('RideController', () => {
         expect(httpResponse.body).toEqual({
             error_code: "NO_RIDES_FOUND",
             error_description: "Nenhum registro encontrado"
+        })
+    })
+
+    test('should return 200 and all rides if no drive id is provided', async () => {
+        const { sut, driverRepository, customerRepository } = makeSut()
+
+        const httpRequest = {
+            params: {
+                customer_id: "any_id"
+            }
+        }
+
+        jest.spyOn(driverRepository, 'getDriverById').mockResolvedValueOnce(null)
+        jest.spyOn(customerRepository, 'findCustomerById').mockResolvedValueOnce(mockCustomer)
+        const httpResponse = await sut.handle(httpRequest)
+
+        expect(httpResponse.statusCode).toBe(200)
+        expect(httpResponse.body).toEqual({
+            customer_id: "any_id",
+            rides: [
+                {
+                    id: 1,
+                    date,
+                    origin: 'any_origin',
+                    destination: 'any_destination',
+                    distance: '5000',
+                    duration: '5000s',
+                    driver: {
+                        id: 1,
+                        name: 'John Doe'
+                    },
+                    value: 500
+                },
+                {
+                    id: 2,
+                    date,
+                    origin: 'any_origin',
+                    destination: 'any_destination',
+                    distance: '5000',
+                    duration: '5000s',
+                    driver: {
+                        id: 2,
+                        name: 'Jane Doe'
+                    },
+                    value: 600
+                }
+            ]
         })
     })
 })
