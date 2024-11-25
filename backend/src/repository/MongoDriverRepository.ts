@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { MongoClient } from "../db/mongo";
 import { Driver } from "../model/driver";
 import { DriverRepository } from "./DriverRepository";
@@ -11,6 +12,7 @@ export class MongoDriverRepository implements DriverRepository {
     }
 
     async getDriverById(id: string): Promise<Driver> {
-        return null
+        const driver = await MongoClient.db.collection<Driver>('drivers').findOne({ id })
+        return driver
     }
 }
