@@ -15,10 +15,33 @@ export class RideController implements Controller {
     }
 
     async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-        const driver = await this.driverRepository.getDriverById(httpRequest.params.driver_id)
+        let customer
+        const driverId = httpRequest.params.driver_id
+
+        if (!driverId) {
+            customer = await this.customerRepository.findCustomerById(httpRequest.params.customer_id)
+            if (!customer || customer.rides.length == 0) return noRidesFound()
+
+            const returnedCustomer = {
+                customer_id: null,
+                rides: []
+            }
+            returnedCustomer.customer_id = customer.id
+            const editedRides = customer.rides.map(ride => {
+                delete ride.customer_id
+                return ride
+            })
+            returnedCustomer.rides = editedRides
+
+            return ({
+                statusCode: 200,
+                body: returnedCustomer
+            })
+        }
+        const driver = await this.driverRepository.getDriverById(driverId)
         if (!driver) return invalidDriver()
 
-        const customer = await this.customerRepository.findCustomerById(httpRequest.params.customer_id)
+        customer = await this.customerRepository.findCustomerById(httpRequest.params.customer_id)
         if (!customer || customer.rides.length == 0) return noRidesFound()
 
         return null
