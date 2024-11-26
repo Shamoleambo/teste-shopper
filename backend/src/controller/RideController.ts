@@ -18,14 +18,16 @@ export class RideController implements Controller {
         let customer
         const driverId = httpRequest.params.driver_id
 
+        const returnedCustomer = {
+            customer_id: null,
+            rides: []
+        }
+
         if (!driverId) {
             customer = await this.customerRepository.findCustomerById(httpRequest.params.customer_id)
             if (!customer || customer.rides.length == 0) return noRidesFound()
 
-            const returnedCustomer = {
-                customer_id: null,
-                rides: []
-            }
+
             returnedCustomer.customer_id = customer.id
             const editedRides = customer.rides.map(ride => {
                 delete ride.customer_id
@@ -44,6 +46,12 @@ export class RideController implements Controller {
         customer = await this.customerRepository.findCustomerById(httpRequest.params.customer_id)
         if (!customer || customer.rides.length == 0) return noRidesFound()
 
-        return null
+        returnedCustomer.customer_id = customer.id
+        returnedCustomer.rides = customer.rides.filter(ride => ride.driver.id === driverId)
+
+        return ({
+            statusCode: 200,
+            body: returnedCustomer
+        })
     }
 }
