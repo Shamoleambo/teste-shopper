@@ -19,7 +19,7 @@ const makeSut = (): SutTypes => {
 }
 
 const mockDriver = {
-    id: 'any_id',
+    id: '1',
     name: 'any_name',
     description: 'any_description',
     vehicle: 'any_vehicle',
@@ -153,6 +153,41 @@ describe('RideController', () => {
                         name: 'Jane Doe'
                     },
                     value: 600
+                }
+            ]
+        })
+    })
+
+    test('should return 200 and rides filtered by driver', async () => {
+        const { sut, driverRepository, customerRepository } = makeSut()
+
+        const httpRequest = {
+            params: {
+                customer_id: "any_id",
+                driver_id: 1
+            }
+        }
+
+        jest.spyOn(driverRepository, 'getDriverById').mockResolvedValueOnce(mockDriver)
+        jest.spyOn(customerRepository, 'findCustomerById').mockResolvedValueOnce(mockCustomer)
+        const httpResponse = await sut.handle(httpRequest)
+
+        expect(httpResponse.statusCode).toBe(200)
+        expect(httpResponse.body).toEqual({
+            customer_id: "any_id",
+            rides: [
+                {
+                    id: 1,
+                    date,
+                    origin: 'any_origin',
+                    destination: 'any_destination',
+                    distance: '5000',
+                    duration: '5000s',
+                    driver: {
+                        id: 1,
+                        name: 'John Doe'
+                    },
+                    value: 500
                 }
             ]
         })
