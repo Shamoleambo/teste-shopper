@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { badRequest, distanceNotValidForDriver, driverNotFound } from "../helpers/http-helper";
+import { badRequest, distanceNotValidForDriver, driverNotFound, ok } from "../helpers/http-helper";
 import { HttpRequest, HttpResponse } from "../protocols/http";
 import { CustomerRepository } from "../repository/CustomerRepository";
 import { DriverRepository } from "../repository/DriverRepository";
@@ -49,9 +49,6 @@ export class ConfirmController implements Controller {
 
         await this.customerRepository.saveCustomer(customerId, ride)
 
-        return {
-            statusCode: 200,
-            body: { success: true }
-        }
+        return ok({ success: true })
     }
 }
