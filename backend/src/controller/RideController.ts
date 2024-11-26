@@ -17,7 +17,7 @@ export class RideController implements Controller {
     async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
         let customer, editedRides
         const driverId = httpRequest.query.driver_id
-        const customerId = httpRequest.params.customer_id
+        const customerId = +httpRequest.params.customer_id
 
         const returnedCustomer = {
             customer_id: null,

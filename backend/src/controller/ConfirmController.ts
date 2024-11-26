@@ -31,7 +31,7 @@ export class ConfirmController implements Controller {
 
         if (driver.minimumDistance * 1000 > httpRequest.body.distance) return distanceNotValidForDriver()
 
-        const customerId = httpRequest.body.customer_id
+        const customerId = +httpRequest.body.customer_id
         const ride = {
             id: Math.floor(Math.random() * 10000),
             "customer_id": httpRequest.body.customer_id,

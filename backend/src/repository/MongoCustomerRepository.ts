@@ -5,9 +5,9 @@ import { CustomerRepository } from "./CustomerRepository";
 
 export class MongoCustomerRepository implements CustomerRepository {
 
-    async saveCustomer(customerId: string, ride: Ride): Promise<void> {
+    async saveCustomer(customerId: number, ride: Ride): Promise<void> {
         const customerFromDb = await MongoClient.db.collection<Customer>('customers').findOne({ id: customerId })
-        const customerObj = { id: customerId, rides: [ride]}
+        const customerObj = { id: customerId, rides: [ride] }
 
         if (!customerFromDb) {
             await MongoClient.db.collection<Customer>('customers').updateOne(
@@ -24,7 +24,8 @@ export class MongoCustomerRepository implements CustomerRepository {
         }
     }
 
-    async findCustomerById(customerId: string): Promise<Customer> {
-        return null
+    async findCustomerById(customerId: number): Promise<Customer> {
+        const customer = await MongoClient.db.collection<Customer>('customers').findOne({ id: customerId })
+        return customer
     }
 }
