@@ -1,4 +1,4 @@
-import { invalidDriver, noRidesFound } from "../helpers/http-helper";
+import { invalidDriver, noRidesFound, ok } from "../helpers/http-helper";
 import { HttpRequest, HttpResponse } from "../protocols/http";
 import { CustomerRepository } from "../repository/CustomerRepository";
 import { DriverRepository } from "../repository/DriverRepository";
@@ -15,7 +15,7 @@ export class RideController implements Controller {
     }
 
     async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-        let customer
+        let customer, editedRides
         const driverId = httpRequest.params.driver_id
 
         const returnedCustomer = {
@@ -29,17 +29,15 @@ export class RideController implements Controller {
 
 
             returnedCustomer.customer_id = customer.id
-            const editedRides = customer.rides.map(ride => {
+            editedRides = customer.rides.map(ride => {
                 delete ride.customer_id
                 return ride
             })
             returnedCustomer.rides = editedRides
 
-            return ({
-                statusCode: 200,
-                body: returnedCustomer
-            })
+            return ok(returnedCustomer)
         }
+
         const driver = await this.driverRepository.getDriverById(driverId)
         if (!driver) return invalidDriver()
 
@@ -47,11 +45,15 @@ export class RideController implements Controller {
         if (!customer || customer.rides.length == 0) return noRidesFound()
 
         returnedCustomer.customer_id = customer.id
-        returnedCustomer.rides = customer.rides.filter(ride => ride.driver.id === driverId)
 
-        return ({
-            statusCode: 200,
-            body: returnedCustomer
+        editedRides = customer.rides.filter(ride => ride.driver.id === driverId)
+        editedRides = editedRides.map(ride => {
+            delete ride.customer_id
+            return ride
         })
+
+        returnedCustomer.rides = editedRides
+
+        return ok(returnedCustomer)
     }
 }
