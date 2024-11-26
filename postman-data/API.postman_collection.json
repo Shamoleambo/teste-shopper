@@ -1,0 +1,85 @@
+{
+	"info": {
+		"_postman_id": "adc288a4-fb38-46e1-add0-640f870b9d4d",
+		"name": "API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14600772"
+	},
+	"item": [
+		{
+			"name": "ESTIMATE RIDE",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"customer_id\": \"123\",\n    \"origin\": \"1800 Amphitheatre Parkway, Mountain View, CA 94043\",\n    \"destination\": \"Sloat Blvd &, Upper Great Hwy, San Francisco, CA 94132\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{taxi-env}}/estimate",
+					"host": [
+						"{{taxi-env}}"
+					],
+					"path": [
+						"estimate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CONFIRM RIDE",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"customer_id\": 2,\n    \"origin\": \"new_origin\",\n    \"destination\": \"new_destination\",\n    \"distance\": 11000,\n    \"duration\": \"500s\",\n    \"driver\": {\n        \"id\": \"3\",\n        \"name\": \"James Bond\"\n    },\n    \"value\": 500\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{taxi-env}}/confirm",
+					"host": [
+						"{{taxi-env}}"
+					],
+					"path": [
+						"confirm"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET RIDES",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{taxi-env}}/1?driver_id=1",
+					"host": [
+						"{{taxi-env}}"
+					],
+					"path": [
+						"1"
+					],
+					"query": [
+						{
+							"key": "driver_id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
