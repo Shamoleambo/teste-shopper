@@ -1,8 +1,6 @@
 import { Router } from "express";
 import { adaptRoute } from "./controllerAdapter";
-import { makeEstimateController } from "./controllerFactories/EstimateControllerFactory";
-import { makeConfirmController } from "./controllerFactories/ConfirmControllerFactory";
-import { makeRideController } from "./controllerFactories/RideControllerFactory";
+import { makeConfirmController, makeEstimateController, makeRideController } from "./controllerFactories"
 
 const router = Router()
 
