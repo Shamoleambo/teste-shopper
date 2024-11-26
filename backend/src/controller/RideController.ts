@@ -43,7 +43,7 @@ export class RideController implements Controller {
         if (!driver) return invalidDriver()
 
         customer = await this.customerRepository.findCustomerById(customerId)
-        if (!customer || customer.rides.length == 0) return noRidesFound()
+        if (!customer) return noRidesFound()
 
         returnedCustomer.customer_id = customer.id
 
@@ -52,6 +52,8 @@ export class RideController implements Controller {
             delete ride.customer_id
             return ride
         })
+
+        if (editedRides.length === 0) return noRidesFound()
 
         returnedCustomer.rides = editedRides
 
