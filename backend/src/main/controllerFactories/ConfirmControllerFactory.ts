@@ -1,6 +1,6 @@
-import { ConfirmController } from "../controller/ConfirmController";
-import { MongoCustomerRepository } from "../repository/MongoCustomerRepository";
-import { MongoDriverRepository } from "../repository/MongoDriverRepository";
+import { ConfirmController } from "../../controller/ConfirmController";
+import { MongoCustomerRepository } from "../../repository/MongoCustomerRepository";
+import { MongoDriverRepository } from "../../repository/MongoDriverRepository";
 
 export const makeConfirmController = (): ConfirmController => {
     const driverRepository = new MongoDriverRepository()
