@@ -1,16 +1,19 @@
-import { useState } from 'react'
-import './App.css'
+import { useReducer } from 'react'
 import DriversInfo from './components/DriversInfo'
 import Form from './components/Form'
-import { Driver } from './models/Driver'
+import { rideReducer } from './reducers/rideReducer'
+import { rideInitialState } from './reducers/rideInitialState'
+
+
 
 function App() {
-  const [drivers, setDrivers] = useState<Driver[]>([])
+
+  const [rideState, dispatchRide] = useReducer(rideReducer, rideInitialState)
 
   return (
     <div>
-      <Form setDrivers={setDrivers} />
-      <DriversInfo drivers={drivers} />
+      <Form dispatchRide={dispatchRide} />
+      <DriversInfo drivers={rideState.drivers} />
     </div>
   )
 }

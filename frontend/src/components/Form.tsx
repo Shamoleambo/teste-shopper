@@ -1,8 +1,8 @@
 import { useState, FormEvent } from 'react'
-import { RideAction, RideState } from '../reducers/rideTypes'
+import { RideAction } from '../reducers/rideTypes'
 
 
-const Form: React.FC<{ state: RideState, dispatch: (action: RideAction) => void }> = (props) => {
+const Form: React.FC<{ dispatchRide: (action: RideAction) => void }> = (props) => {
     const [customerId, setCustomerId] = useState("")
     const [origin, setOrigin] = useState("")
     const [destination, setDestination] = useState("")
@@ -25,15 +25,15 @@ const Form: React.FC<{ state: RideState, dispatch: (action: RideAction) => void 
 
         const data = await response.json()
 
-        props.dispatch({ type: 'SET_CUSTOMER_ID', payload: customerId })
-        props.dispatch({ type: 'SET_ORIGIN_ADDRESS', payload: origin })
-        props.dispatch({ type: 'SET_DESTINATION_ADDRESS', payload: destination })
-        props.dispatch({ type: 'SET_ORIGIN', payload: { lat: data.origin.latitude, long: data.origin.longitude } })
-        props.dispatch({ type: 'SET_DESTINATION', payload: { lat: data.destination.latitude, long: data.destination.longitude } })
-        props.dispatch({ type: 'SET_DISTANCE', payload: data.distance })
-        props.dispatch({ type: 'SET_DURATION', payload: data.duration })
-        props.dispatch({ type: 'SET_DRIVERS', payload: data.options })
-        props.dispatch({ type: 'SET_ROUTE_RESPONSE', payload: data.routeResponse })
+        props.dispatchRide({ type: 'SET_CUSTOMER_ID', payload: customerId })
+        props.dispatchRide({ type: 'SET_ORIGIN_ADDRESS', payload: origin })
+        props.dispatchRide({ type: 'SET_DESTINATION_ADDRESS', payload: destination })
+        props.dispatchRide({ type: 'SET_ORIGIN', payload: { lat: data.origin.latitude, long: data.origin.longitude } })
+        props.dispatchRide({ type: 'SET_DESTINATION', payload: { lat: data.destination.latitude, long: data.destination.longitude } })
+        props.dispatchRide({ type: 'SET_DISTANCE', payload: data.distance })
+        props.dispatchRide({ type: 'SET_DURATION', payload: data.duration })
+        props.dispatchRide({ type: 'SET_DRIVERS', payload: data.options })
+        props.dispatchRide({ type: 'SET_ROUTE_RESPONSE', payload: data.routeResponse })
 
     }
     return <form onSubmit={submitHandler}>
