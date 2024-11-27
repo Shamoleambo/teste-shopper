@@ -1,14 +1,16 @@
+import { Coordinates } from "../models/Coordinates"
 import { Driver } from "../models/Driver"
+import DriverDetails from "./DriverDetails"
 
-const DriversInfo: React.FC<{ drivers: Driver[] }> = (props) => {
-    return <ul>{props.drivers.map(driver => <li key={driver.id}>
-        <div>
-            <h3>{driver.name}</h3>
-            <p><strong>{driver.review.rating}</strong>/5 - {driver.review.comment}</p>
-            <p>{driver.vehicle}</p>
-            <p>R$ {driver.value}</p>
-        </div>
-    </li>)}</ul>
+const DriversInfo: React.FC<{ drivers: Driver[], coordinates: Coordinates, polyline: string }> = (props) => {
+
+    return <>
+        <ul>{props.drivers.map(driver => (
+            <li key={driver.id}>
+                <DriverDetails name={driver.name} rating={driver.review.rating} comment={driver.review.comment} car={driver.vehicle} value={driver.value} />
+            </li>
+        ))}</ul>
+    </>
 }
 
 export default DriversInfo
