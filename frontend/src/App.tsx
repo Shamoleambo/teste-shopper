@@ -1,6 +1,6 @@
-import { useReducer, useState, useEffect } from 'react'
+import { useReducer, useState } from 'react'
 import DriversInfo from './components/DriversInfo'
-import Form from './components/Form'
+import RideForm from './components/RideForm'
 import { rideReducer } from './reducers/rideReducer'
 import { rideInitialState } from './reducers/rideInitialState'
 import { RideConfirmationBody } from './models/RideConfirmationBody'
@@ -32,7 +32,7 @@ function App() {
 
   return (
     <div>
-      <Form
+      <RideForm
         dispatchRide={dispatchRide}
         setCustomerId={setCustomerId}
         setOrigin={setOrigin}

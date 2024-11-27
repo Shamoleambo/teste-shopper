@@ -2,7 +2,7 @@ import { useRef, FormEvent } from 'react'
 import { RideAction } from '../reducers/rideTypes'
 
 
-const Form: React.FC<{
+const RideForm: React.FC<{
     dispatchRide: (action: RideAction) => void,
     setCustomerId: (id: string) => void,
     setOrigin: (origin: string) => void,
@@ -75,4 +75,4 @@ const Form: React.FC<{
     </form>
 }
 
-export default Form
+export default RideForm
