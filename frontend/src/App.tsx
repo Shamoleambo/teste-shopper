@@ -2,8 +2,6 @@ import { useRef } from 'react'
 import './App.css'
 
 function App() {
-  console.log('meu caro amigo')
-
   const userIdInputRef = useRef<HTMLInputElement>(null)
   const originInputRef = useRef<HTMLInputElement>(null)
   const destinationInputRef = useRef<HTMLInputElement>(null)
@@ -17,7 +15,10 @@ function App() {
         customer_id: userIdInputRef.current?.value,
         origin: originInputRef.current?.value,
         destination: destinationInputRef.current?.value
-      })
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
     })
 
     const data = await response.json()
