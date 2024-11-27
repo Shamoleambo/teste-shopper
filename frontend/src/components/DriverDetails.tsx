@@ -4,6 +4,7 @@ const DriverDetails: React.FC<{ name: string, rating: number, comment: string, c
         <p><strong>{props.rating}</strong>/5 - {props.comment}</p>
         <p>{props.car}</p>
         <p>R$ {props.value}</p>
+        <button>Confirm Ride</button>
     </div>
 }
 
