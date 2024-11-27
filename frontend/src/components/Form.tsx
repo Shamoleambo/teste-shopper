@@ -1,6 +1,7 @@
 import { useRef } from 'react'
+import { Driver } from '../models/Driver'
 
-const Form: React.FC = () => {
+const Form: React.FC<{ setDrivers: (drivers: Driver[]) => void }> = (props) => {
     const userIdInputRef = useRef<HTMLInputElement>(null)
     const originInputRef = useRef<HTMLInputElement>(null)
     const destinationInputRef = useRef<HTMLInputElement>(null)
@@ -21,7 +22,7 @@ const Form: React.FC = () => {
         })
 
         const data = await response.json()
-        console.log(data)
+        props.setDrivers(data.options)
 
     }
     return <form onSubmit={submitHandler}>
