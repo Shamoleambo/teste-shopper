@@ -1,10 +1,12 @@
-import { useRef } from 'react'
-import { Driver } from '../models/Driver'
+import { useState, FormEvent } from 'react'
+import { RideAction, RideState } from '../reducers/rideTypes'
 
-const Form: React.FC<{ setDrivers: (drivers: Driver[]) => void }> = (props) => {
-    const userIdInputRef = useRef<HTMLInputElement>(null)
-    const originInputRef = useRef<HTMLInputElement>(null)
-    const destinationInputRef = useRef<HTMLInputElement>(null)
+
+const Form: React.FC<{ state: RideState, dispatch: (action: RideAction) => void }> = (props) => {
+    const [customerId, setCustomerId] = useState("")
+    const [origin, setOrigin] = useState("")
+    const [destination, setDestination] = useState("")
+
 
     const submitHandler = async (event: React.FormEvent): Promise<void> => {
         event.preventDefault()
@@ -12,9 +14,9 @@ const Form: React.FC<{ setDrivers: (drivers: Driver[]) => void }> = (props) => {
         const response = await fetch('http://localhost:8080/ride/estimate', {
             method: 'POST',
             body: JSON.stringify({
-                customer_id: userIdInputRef.current?.value,
-                origin: originInputRef.current?.value,
-                destination: destinationInputRef.current?.value
+                customer_id: customerId,
+                origin: origin,
+                destination: destination
             }),
             headers: {
                 'Content-Type': 'application/json'
@@ -22,21 +24,42 @@ const Form: React.FC<{ setDrivers: (drivers: Driver[]) => void }> = (props) => {
         })
 
         const data = await response.json()
-        props.setDrivers(data.options)
+
+        props.dispatch({ type: 'SET_CUSTOMER_ID', payload: customerId })
+        props.dispatch({ type: 'SET_ORIGIN_ADDRESS', payload: origin })
+        props.dispatch({ type: 'SET_DESTINATION_ADDRESS', payload: destination })
+        props.dispatch({ type: 'SET_ORIGIN', payload: { lat: data.origin.latitude, long: data.origin.longitude } })
+        props.dispatch({ type: 'SET_DESTINATION', payload: { lat: data.destination.latitude, long: data.destination.longitude } })
+        props.dispatch({ type: 'SET_DISTANCE', payload: data.distance })
+        props.dispatch({ type: 'SET_DURATION', payload: data.duration })
+        props.dispatch({ type: 'SET_DRIVERS', payload: data.options })
+        props.dispatch({ type: 'SET_ROUTE_RESPONSE', payload: data.routeResponse })
 
     }
     return <form onSubmit={submitHandler}>
         <div className='input-wrapper'>
             <label htmlFor='userId'>User Id:</label>
-            <input type='number' id='userId' ref={userIdInputRef} />
+            <input
+                type='number'
+                id='userId'
+                onChange={(e: FormEvent<HTMLInputElement>) => setCustomerId(e.currentTarget.value)}
+            />
         </div>
         <div className='input-wrapper'>
             <label htmlFor='originAddress'>Origin Address:</label>
-            <input type='text' id='originAddress' ref={originInputRef} />
+            <input
+                type='text'
+                id='originAddress'
+                onChange={(e: FormEvent<HTMLInputElement>) => setOrigin(e.currentTarget.value)}
+            />
         </div>
         <div className='input-wrapper'>
             <label htmlFor='destinationAddress'>Destination Address:</label>
-            <input type='text' id='destinationAddress' ref={destinationInputRef} />
+            <input
+                type='text'
+                id='destinationAddress'
+                onChange={(e: FormEvent<HTMLInputElement>) => setDestination(e.currentTarget.value)}
+            />
         </div>
         <button type='submit'>Estimate Ride</button>
     </form>
