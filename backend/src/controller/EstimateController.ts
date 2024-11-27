@@ -35,6 +35,7 @@ export class EstimateController implements Controller {
         const availableDrivers = await this.getDriversByDistance.check(distance)
 
         const responseBody = {
+            customer_id: httpRequest.body.customer_id,
             origin: {
                 latitude: originLatitude,
                 longitude: originLongitude
