@@ -8,7 +8,7 @@ export class FetchWrapper {
                 headers: {
                     'Content-Type': 'application/json',
                     'X-Goog-Api-Key': process.env.GOOGLE_API_KEY,
-                    'X-Goog-FieldMask': 'routes.duration,routes.distanceMeters,routes.legs.startLocation,routes.legs.endLocation'
+                    'X-Goog-FieldMask': '*'
                 },
                 body: JSON.stringify({
                     "origin": {
