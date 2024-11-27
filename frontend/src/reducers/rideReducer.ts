@@ -2,8 +2,6 @@ import { RideState, RideAction } from "./rideTypes"
 
 export function rideReducer(state: RideState, action: RideAction): RideState {
     switch (action.type) {
-        case 'SET_CUSTOMER_ID':
-            return { ...state, customerId: action.payload }
         case 'SET_ORIGIN':
             return { ...state, origin: action.payload }
         case 'SET_DESTINATION':
@@ -16,5 +14,7 @@ export function rideReducer(state: RideState, action: RideAction): RideState {
             return { ...state, drivers: action.payload }
         case 'SET_ROUTE_RESPONSE':
             return { ...state, routeResponse: action.payload }
+        default:
+            throw new Error('Unhaandled action type')
     }
 }

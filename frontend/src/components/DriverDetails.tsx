@@ -14,9 +14,9 @@ const DriverDetails: React.FC<{
 
     const handleConfirm = () => {
         const body = {
-            "customer_id": props.rideState.customerId,
-            origin: props.rideState.originAddress,
-            destination: props.rideState.destinationAddress,
+            customer_id: "",
+            origin: "",
+            destination: "",
             duration: props.rideState.duration,
             distance: props.rideState.distance,
             driver: { id: props.id, name: props.name },
