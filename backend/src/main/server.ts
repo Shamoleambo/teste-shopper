@@ -1,5 +1,5 @@
-import express, { NextFunction, Request, Response } from "express"
-import { json } from "express"
+import express, { json } from "express"
+import cors from 'cors'
 import router from './routes'
 import { MongoClient } from "../db/mongo"
 
@@ -9,13 +9,8 @@ MongoClient.connect().then(() => {
 
     const app = express()
 
+    app.use(cors())
     app.use(json())
-    app.use((req: Request, res: Response, next: NextFunction): void => {
-        res.set('access-control-allow-origin', '*')
-        res.set('access-control-allow-headers', '*')
-        res.set('access-control-allow-methods', '*')
-        next()
-    })
 
     app.use(router)
 
