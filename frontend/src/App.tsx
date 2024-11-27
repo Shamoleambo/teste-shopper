@@ -4,6 +4,7 @@ import RideForm from './components/RideForm'
 import { rideReducer } from './reducers/rideReducer'
 import { rideInitialState } from './reducers/rideInitialState'
 import { RideConfirmationBody } from './models/RideConfirmationBody'
+import HistoryForm from './components/HistoryForm'
 
 
 
@@ -43,6 +44,7 @@ function App() {
         rideState={rideState}
         onConfirmDriver={handleRideConfirmation}
       />
+      <HistoryForm />
     </div>
   )
 }
