@@ -30,11 +30,7 @@ const RideForm: React.FC<{
         })
 
         const data = await response.json()
-        console.log(data)
 
-        // props.dispatchRide({ type: 'SET_CUSTOMER_ID', payload: customerId })
-        // props.dispatchRide({ type: 'SET_ORIGIN_ADDRESS', payload: origin })
-        // props.dispatchRide({ type: 'SET_DESTINATION_ADDRESS', payload: destination })
         props.dispatchRide({ type: 'SET_ORIGIN', payload: { lat: data.origin.latitude, long: data.origin.longitude } })
         props.dispatchRide({ type: 'SET_DESTINATION', payload: { lat: data.destination.latitude, long: data.destination.longitude } })
         props.dispatchRide({ type: 'SET_DISTANCE', payload: data.distance })

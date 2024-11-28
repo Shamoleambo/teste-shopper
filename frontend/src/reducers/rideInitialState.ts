@@ -1,9 +1,6 @@
 import { RideState } from "./rideTypes"
 
 export const rideInitialState: RideState = {
-    customerId: "",
-    originAddress: "",
-    destinationAddress: "",
     origin: {
         lat: 0,
         long: 0

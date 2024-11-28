@@ -28,7 +28,6 @@ function App() {
       }
     })
     const response = await responseRaw.json()
-    console.log(response)
   }
 
   return (
