@@ -44,17 +44,15 @@ function App() {
 
   return (
     <div className='main'>
-      <div className="forms">
-        <RideForm
-          dispatchRide={dispatchRide}
-          setCustomerId={setCustomerId}
-          setOrigin={setOrigin}
-          setDestination={setDestination}
-          setError={setError}
-        />
-        <UserHistory setError={setError} />
+      <RideForm
+        dispatchRide={dispatchRide}
+        setCustomerId={setCustomerId}
+        setOrigin={setOrigin}
+        setDestination={setDestination}
+        setError={setError}
+      />
+      <UserHistory setError={setError} />
 
-      </div>
       <DriversInfo
         drivers={rideState.drivers}
         rideState={rideState}
