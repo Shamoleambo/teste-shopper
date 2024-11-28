@@ -17,6 +17,7 @@ const RideForm: React.FC<{
 
     const submitHandler = async (event: React.FormEvent): Promise<void> => {
         event.preventDefault()
+        let responseData
 
         try {
             const response = await fetch('http://localhost:8080/ride/estimate', {
@@ -31,24 +32,23 @@ const RideForm: React.FC<{
                 }
             })
 
-            const responseData = await response.json()
-
+            responseData = await response.json()
             if (!responseData.ok) {
                 throw new Error(responseData.error_description)
             }
 
-            props.dispatchRide({ type: 'SET_ORIGIN', payload: { lat: responseData.origin.latitude, long: responseData.origin.longitude } })
-            props.dispatchRide({ type: 'SET_DESTINATION', payload: { lat: responseData.destination.latitude, long: responseData.destination.longitude } })
-            props.dispatchRide({ type: 'SET_DISTANCE', payload: responseData.distance })
-            props.dispatchRide({ type: 'SET_DURATION', payload: responseData.duration })
-            props.dispatchRide({ type: 'SET_DRIVERS', payload: responseData.options })
-            props.dispatchRide({ type: 'SET_ROUTE_RESPONSE', payload: responseData.routeResponse })
 
         } catch (error) {
             const err = error as Error
             props.setError(err.message)
         }
 
+        props.dispatchRide({ type: 'SET_ORIGIN', payload: { lat: responseData.origin.latitude, long: responseData.origin.longitude } })
+        props.dispatchRide({ type: 'SET_DESTINATION', payload: { lat: responseData.destination.latitude, long: responseData.destination.longitude } })
+        props.dispatchRide({ type: 'SET_DISTANCE', payload: responseData.distance })
+        props.dispatchRide({ type: 'SET_DURATION', payload: responseData.duration })
+        props.dispatchRide({ type: 'SET_DRIVERS', payload: responseData.options })
+        props.dispatchRide({ type: 'SET_ROUTE_RESPONSE', payload: responseData.routeResponse })
     }
     return <form onSubmit={submitHandler}>
         <div className='input-wrapper'>

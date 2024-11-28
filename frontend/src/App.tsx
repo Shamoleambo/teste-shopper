@@ -22,14 +22,23 @@ function App() {
     body.origin = origin
     body.destination = destination
 
-    const responseRaw = await fetch('http://localhost:8080/ride/confirm', {
-      method: 'PATCH',
-      body: JSON.stringify(body),
-      headers: {
-        'Content-Type': 'application/json'
+    try {
+      const response = await fetch('http://localhost:8080/ride/confirm', {
+        method: 'PATCH',
+        body: JSON.stringify(body),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      const responseData = await response.json()
+
+      if (!response.ok) {
+        throw new Error(responseData.error_description)
       }
-    })
-    const response = await responseRaw.json()
+    } catch (error) {
+      const err = error as Error
+      setError(err.message)
+    }
   }
 
   return (
@@ -46,7 +55,7 @@ function App() {
         rideState={rideState}
         onConfirmDriver={handleRideConfirmation}
       />
-      <UserHistory />
+      <UserHistory setError={setError} />
       {error && <ErrorModal onClose={() => setError('')}>
         <h3>{error}</h3>
       </ErrorModal>}

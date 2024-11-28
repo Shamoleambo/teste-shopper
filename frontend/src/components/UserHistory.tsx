@@ -4,7 +4,7 @@ import { Ride } from "../models/Ride"
 import RideInfo from "./RideInfo"
 
 
-const UserHistory: React.FC = () => {
+const UserHistory: React.FC<{ setError: (msg: string) => void }> = ({ setError }) => {
     const [registeredUserId, setRegisteredUserId] = useState<string>("")
     const [driver, setDriver] = useState<string>("")
     const [rides, setRides] = useState<Ride[]>([])
@@ -13,13 +13,33 @@ const UserHistory: React.FC = () => {
         e.preventDefault()
 
         if (driver) {
-            const rawData = await fetch(`http://localhost:8080/ride/${registeredUserId}?driver_id=${driver}`)
-            const userRidesRegister = await rawData.json()
-            setRides(userRidesRegister.rides)
+            let responseData
+            try {
+                const response = await fetch(`http://localhost:8080/ride/${registeredUserId}?driver_id=${driver}`)
+                responseData = await response.json()
+                if (!responseData.ok) {
+                    throw new Error(responseData.error_description)
+                }
+            } catch (error) {
+                const err = error as Error
+                setError(err.message)
+            }
+
+            if (responseData.rides) setRides(responseData.rides)
         } else {
-            const rawData = await fetch(`http://localhost:8080/ride/${registeredUserId}`)
-            const userRidesRegister = await rawData.json()
-            setRides(userRidesRegister.rides)
+            let responseData
+            try {
+                const response = await fetch(`http://localhost:8080/ride/${registeredUserId}`)
+                responseData = await response.json()
+                if (!responseData.ok) {
+                    throw new Error(responseData.error_description)
+                }
+            } catch (error) {
+                const err = error as Error
+                setError(err.message)
+            }
+
+            if (responseData.rides) setRides(responseData.rides)
         }
     }
 
