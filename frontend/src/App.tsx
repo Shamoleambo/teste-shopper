@@ -6,6 +6,7 @@ import { rideInitialState } from './reducers/rideInitialState'
 import { RideConfirmationBody } from './models/RideConfirmationBody'
 import UserHistory from './components/UserHistory'
 import ErrorModal from './modal/ErrorModal'
+import './App.css'
 
 
 
@@ -42,20 +43,24 @@ function App() {
   }
 
   return (
-    <div>
-      <RideForm
-        dispatchRide={dispatchRide}
-        setCustomerId={setCustomerId}
-        setOrigin={setOrigin}
-        setDestination={setDestination}
-        setError={setError}
-      />
+    <div className='main'>
+      <div className="forms">
+        <RideForm
+          dispatchRide={dispatchRide}
+          setCustomerId={setCustomerId}
+          setOrigin={setOrigin}
+          setDestination={setDestination}
+          setError={setError}
+        />
+        <UserHistory setError={setError} />
+
+      </div>
       <DriversInfo
         drivers={rideState.drivers}
         rideState={rideState}
         onConfirmDriver={handleRideConfirmation}
       />
-      <UserHistory setError={setError} />
+
       {error && <ErrorModal onClose={() => setError('')}>
         <h3>{error}</h3>
       </ErrorModal>}

@@ -7,14 +7,16 @@ const HistoryForm: React.FC<{
     setDriver: (id: string) => void,
     onSubmit: (e: FormEvent) => Promise<void>
 }> = (props) => {
-    return <form onSubmit={props.onSubmit}>
-        <label htmlFor="userId">User id:</label>
-        <input
-            type="text"
-            id="userId"
-            value={props.registeredUserId}
-            onChange={(e: FormEvent<HTMLInputElement>) => props.setRegisteredUserId(e.currentTarget.value)}
-        />
+    return <form className="form history-form" onSubmit={props.onSubmit}>
+        <div className="input-wrapper">
+            <label htmlFor="userId">User id:</label>
+            <input
+                type="text"
+                id="userId"
+                value={props.registeredUserId}
+                onChange={(e: FormEvent<HTMLInputElement>) => props.setRegisteredUserId(e.currentTarget.value)}
+            />
+        </div>
         <select
             name="drivers"
             id="drivers-select"

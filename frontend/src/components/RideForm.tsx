@@ -50,7 +50,7 @@ const RideForm: React.FC<{
         props.dispatchRide({ type: 'SET_DRIVERS', payload: responseData.options })
         props.dispatchRide({ type: 'SET_ROUTE_RESPONSE', payload: responseData.routeResponse })
     }
-    return <form onSubmit={submitHandler}>
+    return <form className='ride-form form' onSubmit={submitHandler}>
         <div className='input-wrapper'>
             <label htmlFor='userId'>User Id:</label>
             <input
