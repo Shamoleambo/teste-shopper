@@ -15,6 +15,9 @@ const UserHistory: React.FC<{ setError: (msg: string) => void }> = ({ setError }
         if (driver) {
             let responseData
             try {
+                if (!registeredUserId || !registeredUserId.trim()) {
+                    throw new Error('Por favor forneça um id de usuário')
+                }
                 const response = await fetch(`http://localhost:8080/ride/${registeredUserId}?driver_id=${driver}`)
                 responseData = await response.json()
                 if (!responseData.ok) {
@@ -29,6 +32,9 @@ const UserHistory: React.FC<{ setError: (msg: string) => void }> = ({ setError }
         } else {
             let responseData
             try {
+                if (!registeredUserId || !registeredUserId.trim()) {
+                    throw new Error('Por favor forneça um id de usuário')
+                }
                 const response = await fetch(`http://localhost:8080/ride/${registeredUserId}`)
                 responseData = await response.json()
                 if (!responseData.ok) {
