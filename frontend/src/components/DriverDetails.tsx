@@ -26,11 +26,13 @@ const DriverDetails: React.FC<{
         props.onConfirm(body)
     }
 
-    return <div>
-        <h3>{props.name}</h3>
-        <p><strong>{props.rating}</strong>/5 - {props.comment}</p>
-        <p>{props.car}</p>
-        <p>R$ {props.value}</p>
+    return <div className="driver-details">
+        <h3 className="driver-details-name">{props.name}</h3>
+        <p className="driver-details-rating">
+            <span className="rating-highlight"><strong>{props.rating}</strong></span>/5 - {props.comment}
+        </p>
+        <p className="driver-details-car">{props.car}</p>
+        <p className="driver-details-value">R$ {props.value.toFixed(2)}</p>
         <button onClick={handleConfirm}>Confirm Ride</button>
     </div>
 }

@@ -7,15 +7,17 @@ const ErrorModal: React.FC<{
 }> = (props) => {
     const modalContent = (
         <div
+            className='erro-modal'
             style={{
                 position: 'fixed',
+                border: '6px solid red',
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
                 background: 'white',
                 padding: '20px',
                 borderRadius: '8px',
-                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+                boxShadow: '0 8px 8px rgba(0, 0, 0, 0.8)'
             }}
         >
             <button

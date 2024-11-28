@@ -4,6 +4,10 @@
     align-items: center;
 }
 
+ul {
+    list-style-type: none;
+}
+
 .forms {
     display: flex;
     align-items: center;
@@ -35,4 +39,26 @@ button:hover {
 
 select {
     margin: 10px;
+}
+
+.driver-details {
+    width: 100%;
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.driver-details button {
+    width: 30%;
+}
+
+.driver-details-rating .rating-highlight {
+    font-size: 1.5em;
+}
+
+.error-modal {
+    border: 3px solid red;
 }
