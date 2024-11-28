@@ -5,6 +5,7 @@ import { rideReducer } from './reducers/rideReducer'
 import { rideInitialState } from './reducers/rideInitialState'
 import { RideConfirmationBody } from './models/RideConfirmationBody'
 import UserHistory from './components/UserHistory'
+import ErrorModal from './modal/ErrorModal'
 
 
 
@@ -14,6 +15,7 @@ function App() {
   const [customerId, setCustomerId] = useState("")
   const [origin, setOrigin] = useState("")
   const [destination, setDestination] = useState("")
+  const [error, setError] = useState<string>('')
 
   const handleRideConfirmation = async (body: RideConfirmationBody): Promise<void> => {
     body.customer_id = customerId
@@ -37,6 +39,7 @@ function App() {
         setCustomerId={setCustomerId}
         setOrigin={setOrigin}
         setDestination={setDestination}
+        setError={setError}
       />
       <DriversInfo
         drivers={rideState.drivers}
@@ -44,6 +47,9 @@ function App() {
         onConfirmDriver={handleRideConfirmation}
       />
       <UserHistory />
+      {error && <ErrorModal onClose={() => setError('')}>
+        <h3>{error}</h3>
+      </ErrorModal>}
     </div>
   )
 }

@@ -6,7 +6,8 @@ const RideForm: React.FC<{
     dispatchRide: (action: RideAction) => void,
     setCustomerId: (id: string) => void,
     setOrigin: (origin: string) => void,
-    setDestination: (destination: string) => void
+    setDestination: (destination: string) => void,
+    setError: (error: string) => void
 }> = (props) => {
 
     const costumerIdInput = useRef<HTMLInputElement>(null)
@@ -17,26 +18,36 @@ const RideForm: React.FC<{
     const submitHandler = async (event: React.FormEvent): Promise<void> => {
         event.preventDefault()
 
-        const response = await fetch('http://localhost:8080/ride/estimate', {
-            method: 'POST',
-            body: JSON.stringify({
-                customer_id: costumerIdInput.current?.value,
-                origin: originInput.current?.value,
-                destination: destinationInput.current?.value
-            }),
-            headers: {
-                'Content-Type': 'application/json'
+        try {
+            const response = await fetch('http://localhost:8080/ride/estimate', {
+                method: 'POST',
+                body: JSON.stringify({
+                    customer_id: costumerIdInput.current?.value,
+                    origin: originInput.current?.value,
+                    destination: destinationInput.current?.value
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+
+            const responseData = await response.json()
+
+            if (!responseData.ok) {
+                throw new Error(responseData.error_description)
             }
-        })
 
-        const data = await response.json()
+            props.dispatchRide({ type: 'SET_ORIGIN', payload: { lat: responseData.origin.latitude, long: responseData.origin.longitude } })
+            props.dispatchRide({ type: 'SET_DESTINATION', payload: { lat: responseData.destination.latitude, long: responseData.destination.longitude } })
+            props.dispatchRide({ type: 'SET_DISTANCE', payload: responseData.distance })
+            props.dispatchRide({ type: 'SET_DURATION', payload: responseData.duration })
+            props.dispatchRide({ type: 'SET_DRIVERS', payload: responseData.options })
+            props.dispatchRide({ type: 'SET_ROUTE_RESPONSE', payload: responseData.routeResponse })
 
-        props.dispatchRide({ type: 'SET_ORIGIN', payload: { lat: data.origin.latitude, long: data.origin.longitude } })
-        props.dispatchRide({ type: 'SET_DESTINATION', payload: { lat: data.destination.latitude, long: data.destination.longitude } })
-        props.dispatchRide({ type: 'SET_DISTANCE', payload: data.distance })
-        props.dispatchRide({ type: 'SET_DURATION', payload: data.duration })
-        props.dispatchRide({ type: 'SET_DRIVERS', payload: data.options })
-        props.dispatchRide({ type: 'SET_ROUTE_RESPONSE', payload: data.routeResponse })
+        } catch (error) {
+            const err = error as Error
+            props.setError(err.message)
+        }
 
     }
     return <form onSubmit={submitHandler}>
